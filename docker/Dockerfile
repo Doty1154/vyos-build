@@ -254,16 +254,14 @@ RUN apt-get update && apt-get install -y \
       libssh-dev \
       doxygen
 
-# Build rtrlib release 0.7.0
-RUN export RTRLIB_VERSION="56e67e7805953eb84d3d68dfb4ff4447f2a8c925" \
-    export ARCH=$(dpkg-architecture -qDEB_HOST_ARCH) && \
-    wget -P /tmp https://github.com/rtrlib/rtrlib/archive/${RTRLIB_VERSION}.tar.gz && \
-    tar xf /tmp/${RTRLIB_VERSION}.tar.gz -C /tmp && \
-    cd /tmp/rtrlib-${RTRLIB_VERSION} && dpkg-buildpackage -uc -us -tc -b && \
+# Build rtrlib release 0.8.0
+RUN export RTRLIB_VERSION="0.8.0" export ARCH=$(dpkg-architecture -qDEB_HOST_ARCH) && \
+    git clone https://github.com/rtrlib/rtrlib.git /tmp/rtrlib && cd /tmp/rtrlib && \
+    dpkg-buildpackage -uc -us -tc -b && \
     dpkg -i ../librtr0*_${ARCH}.deb ../librtr-dev*_${ARCH}.deb ../rtr-tools*_${ARCH}.deb
 
 # Packages needed to build libyang2
-RUN pip3 install apkg
+RUN pip install apkg
 RUN apt-get update && apt-get install -y \
       graphviz \
       cmake \
@@ -273,10 +271,13 @@ RUN apt-get update && apt-get install -y \
 # Prerequisites for building FRR from source
 # see http://docs.frrouting.org/projects/dev-guide/en/latest/building-frr-for-debian8.html
 #
-RUN export LIBYANG_COMMIT="v2.0.7" && \
+RUN export LIBYANG_COMMIT="v2.0.164" && \
     git clone https://github.com/CESNET/libyang.git && \
     cd libyang && git checkout $LIBYANG_COMMIT && apkg build -i && \
     cd pkg/pkgs/debian-11/libyang2_* && dpkg -i *.deb
+
+# FRR documentation also has a dependency on an up to date spinx version
+RUN pip install sphinx==4.0.2
 
 # Packages needed to build FRR itself
 # https://github.com/FRRouting/frr/blob/master/doc/developer/building-libyang.rst
@@ -304,7 +305,6 @@ RUN apt-get update && apt-get install -y \
       python3 \
       python3-dev \
       python3-pytest \
-      python3-sphinx \
       texinfo
 
 # Packages needed for hvinfo
@@ -313,6 +313,7 @@ RUN apt-get update && apt-get install -y \
       gprbuild
 
 # Packages needed for vyos-1x
+RUN pip install git+https://github.com/aristanetworks/j2lint.git@341b5d5db86
 RUN apt-get update && apt-get install -y \
       dh-python \
       fakeroot \
