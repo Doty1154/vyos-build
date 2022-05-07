@@ -6,3 +6,9 @@ key/*
 packages/*
 !packages/*/
 testinstall*.img
+data/live-build-config/hooks/.DS_Store
+data/.DS_Store
+data/live-build-config/.DS_Store
+.DS_Store
+*.log
+.vscode/settings.json
