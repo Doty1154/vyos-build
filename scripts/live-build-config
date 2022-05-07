@@ -62,7 +62,7 @@ lb config noauto \
         --utc-time true \
         --debug \
         --apt-recommends false \
-        --apt-options "--yes -oAPT::Get::allow-downgrades=true" \
+        --apt-options "--yes -oAPT::Get::allow-downgrades=true -o Dpkg::Options::=--force-overwrite" \
         --apt-indices false
         "${@}"
 """

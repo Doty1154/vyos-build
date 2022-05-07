@@ -31,7 +31,7 @@ lb chroot_hostname install
 lb chroot_sysv-rc install
 lb chroot_upstart install
 lb chroot_apt install-binary
-apt-get install -y kpartx make live-build pbuilder devscripts python3-pystache python3-git python3-setuptools parted dosfstools squashfs-tools clang llvm libpcap-dev xz-utils python-is-python3 opam pkg-config qemu qemu-system
+apt-get install -y squashfs-tools
 lb chroot_archives chroot install
 lb binary_rootfs
 lb binary_manifest
