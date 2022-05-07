@@ -2,10 +2,9 @@
   "inherit_from": "data/defaults.json",
   "architecture": "arm64",
   "bootloaders": "grub-efi",
+  "kernel_flavor": "arm64-vyos",
   "additional_repositories": [
     "deb [arch=arm64] http://repo.powerdns.com/debian bullseye-rec-45 main",
     "deb [arch=arm64] https://repos.influxdata.com/debian bullseye stable"
   ]
-  "kernel_flavor": "arm64-vyos",
-  "bootloaders": "grub-efi"
 }
